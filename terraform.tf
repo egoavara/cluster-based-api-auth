@@ -13,3 +13,7 @@ provider "helm" {
     config_context = var.kube-context
   }
 }
+
+provider "random" {
+  # Configuration options
+}

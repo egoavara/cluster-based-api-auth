@@ -1,18 +1,35 @@
 module "istio" {
   source = "./modules/istio"
 }
-module "kubernetes-dashboard" {
-  source = "./modules/kubernetes-dashboard"
-}
-
-module "grafana" {
-  source = "./modules/grafana"
-}
-
-module "keycloak" {
-  source = "./modules/keycloak"
-}
 
 module "prometheus" {
   source = "./modules/prometheus"
+  depends_on = [
+    module.istio
+  ]
+}
+
+module "kiali" {
+  source = "./modules/kiali"
+  depends_on = [
+    module.istio,
+    module.prometheus,
+  ]
+}
+
+
+module "grafana" {
+  source = "./modules/grafana"
+  depends_on = [
+    module.istio,
+    module.prometheus,
+  ]
+}
+
+
+module "keycloak" {
+  source = "./modules/keycloak"
+  depends_on = [
+    module.istio
+  ]
 }

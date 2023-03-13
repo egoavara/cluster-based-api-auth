@@ -1,3 +1,13 @@
+resource "random_password" "password" {
+  length = 32
+}
+
+locals {
+  password = {
+    random   = random_password.password.result
+    password = var.admin-password
+  }[var.admin-auth]
+}
 
 resource "helm_release" "grafana" {
   repository       = "https://grafana.github.io/helm-charts"
@@ -10,6 +20,6 @@ resource "helm_release" "grafana" {
 
   set {
     name  = "adminPassword"
-    value = "answer-to-life-the-universe-and-everything"
+    value = local.password
   }
 }

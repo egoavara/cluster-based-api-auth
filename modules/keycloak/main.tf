@@ -1,5 +1,8 @@
 resource "kubernetes_namespace" "namespace" {
   metadata {
+    labels = {
+      istio-injection = "enabled"
+    }
     name = var.namespace
   }
 }
